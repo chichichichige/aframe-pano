@@ -1,19 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
-  <title>全景</title>
-</head>
-<body>
-  <a-scene vr-mode-ui="enabled: false">
-    <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
-    <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
-    <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
-    <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
-    <a-sky color="#ECECEC"></a-sky>
-  </a-scene>
-</body>
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <title>全景</title>
+    <style>
+      a-scene {
+        width: 98vw;
+        height: 90vh;
+      }
+      .plane{
+        position: relative;
+        bottom: 18vh;
+        z-index: 99999;
+        width: 98vw;
+        height: 18vh;
+        background: #000;
+        opacity: 0.5;
+      }
+      .hidden{
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <a-scene embedded vr-mode-ui="enabled: false">
+        <a-assets>
+          <img id="bgimg" src="/assets/images/bg.jpg">
+        </a-assets>
+        <a-camera :position="position" wasd-controls="false"></a-camera>
+        <a-box color="#000" position="0 0 -3" :visible="visible"></a-box>
+        <a-sky :src="bg"></a-sky>
+      </a-scene>
+      <div></div>
+      <div class="plane" :class="{hidden:!show}">
+        <el-button type="primary" @click="show = !show">{{show ? '隐藏' : '显示'}}</el-button>
+      </div>
+    </div>
+  </body>
+  <script>
+    let x = 0
+    let y = 0
+    let z = 0
+    var app = new Vue({
+      el: '#app',
+      data: {
+        show:false,
+        bg: '#bgimg',
+        visible: true,
+        drawer: false,
+        direction: 'rtl',
+        position: '0 0 0'
+      },
+      methods: {
+      },
+    })
+  </script>
+
 </html>
